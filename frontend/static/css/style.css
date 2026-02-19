@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0b1d3a, #4b2e83);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    margin-bottom: 20px;
+}
+
+.logo-circle {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #6a7cff, #b04bff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin: auto;
+}
+
+/* Text */
+.title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #e6d9ff;
+    margin-top: 10px;
+}
+
+.subtitle {
+    font-size: 22px;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.description {
+    max-width: 800px;
+    margin: auto;
+    font-size: 17px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    margin: 50px 0;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 30px 25px;
+    width: 280px;
+    backdrop-filter: blur(8px);
+}
+
+.card .icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 15px;
+    opacity: 0.85;
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #4f7cff, #a84cff);
+    transition: transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    font-size: 14px;
+    opacity: 0.8;
+}

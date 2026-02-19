@@ -1,0 +1,35 @@
+body {
+  background: #0b1d3a;
+  color: white;
+  font-family: Segoe UI;
+  text-align: center;
+}
+
+.progress-container {
+  width: 60%;
+  margin: 30px auto;
+}
+
+.progress-bar {
+  background: rgba(255,255,255,0.1);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 25px;
+  width: 0%;
+  background: linear-gradient(135deg,#4f7cff,#a84cff);
+  text-align: center;
+  line-height: 25px;
+  transition: width 0.3s ease;
+}
+
+.model-check {
+  background: rgba(255,255,255,0.1);
+  margin: 15px auto;
+  padding: 15px;
+  width: 60%;
+  border-radius: 12px;
+  text-align: left;
+}

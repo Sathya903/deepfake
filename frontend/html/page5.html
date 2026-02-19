@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Final Analysis Report</title>
+  <link rel="stylesheet" href="/static/css/page5.css">
+  <script src="/static/js/page5.js" defer></script>
+</head>
+<body>
+
+<h1>Final Trust Analysis Report</h1>
+
+<div class="card">
+  <h2>Authentication Score</h2>
+  <p id="authScore"></p>
+</div>
+
+<div class="card">
+  <h2>Deepfake Probability</h2>
+  <p id="deepfakeScore"></p>
+</div>
+
+<div class="card">
+  <h2>Model Breakdown</h2>
+
+  <div class="bar">
+    <label>CNN</label>
+    <div class="bar-bg">
+      <div class="bar-fill" id="cnnBar"></div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <label>Frequency</label>
+    <div class="bar-bg">
+      <div class="bar-fill" id="freqBar"></div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <label>Landmark</label>
+    <div class="bar-bg">
+      <div class="bar-fill" id="landmarkBar"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="card">
+  <h2 id="finalVerdict"></h2>
+</div>
+
+</body>
+</html>

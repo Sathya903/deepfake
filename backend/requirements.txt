@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pillow
+opencv-python
+librosa
+numpy
+ffmpeg-python
+jinja2
+pydantic
+soundfile
+
+torch
+torchvision
+torchaudio
+timm
+facenet-pytorch

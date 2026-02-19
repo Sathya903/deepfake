@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Media – TrustLens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/page2.css">
+
+    <script src="/static/js/page2.js" defer></script>
+
+</head>
+
+
+<body>
+    <div class="container">
+
+        <h1 class="heading">Upload Media for Analysis</h1>
+        <p class="subheading">Select the type of media you want to verify</p>
+
+        <!-- Upload Cards -->
+        <div class="upload-cards">
+
+            <!-- Image -->
+            <div class="upload-card">
+                <div class="icon">🖼️</div>
+                <h3>Image</h3>
+                <p>PNG, JPG, JPEG, WebP</p>
+                <label class="upload-btn">
+                    Choose File
+                    <input type="file" accept="image/*" hidden
+                           onchange="handleFile(this,'Image')">
+                </label>
+            </div>
+
+            <!-- Video -->
+            <div class="upload-card">
+                <div class="icon">🎥</div>
+                <h3>Video</h3>
+                <p>MP4, AVI, MOV, WebM</p>
+                <label class="upload-btn">
+                    Choose File
+                    <input type="file" accept="video/*" hidden
+                           onchange="handleFile(this,'Video')">
+                </label>
+            </div>
+
+            <!-- Audio -->
+            <div class="upload-card">
+                <div class="icon">🎵</div>
+                <h3>Audio</h3>
+                <p>MP3, WAV, OGG, M4A</p>
+                <label class="upload-btn">
+                    Choose File
+                    <input type="file" accept="audio/*" hidden
+                           onchange="handleFile(this,'Audio')">
+                </label>
+            </div>
+
+        </div>
+
+        <!-- Selected File -->
+        <div class="selected-file" id="selectedFile" style="display:none;">
+            <div class="selected-header">
+                <h3>Selected File</h3>
+                <button class="close-btn" onclick="clearFile()">✕</button>
+            </div>
+
+            <div class="file-info">
+                <img id="preview" />
+                <div>
+                    <p id="fileName"></p>
+                    <p id="fileType"></p>
+                    <p id="fileSize"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proceed Button -->
+        <button 
+    class="proceed-btn"
+    id="proceedBtn"
+    style="display:none;"
+    onclick="goToPage3()">
+    Proceed to Authentication →
+</button>
+
+    </div>
+
+    <script>
+        function handleFile(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+            localStorage.setItem("mediaType", type);
+            document.getElementById("selectedFile").style.display = "block";
+            document.getElementById("proceedBtn").style.display = "inline-block";
+
+            document.getElementById("fileName").textContent = file.name;
+            document.getElementById("fileType").textContent = "Type: " + type;
+            document.getElementById("fileSize").textContent =
+                "Size: " + (file.size / (1024 * 1024)).toFixed(2) + " MB";
+
+            const preview = document.getElementById("preview");
+
+            if (file.type.startsWith("image")) {
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = "block";
+            } else {
+                preview.style.display = "none";
+            }
+        }
+
+        function clearFile() {
+            document.getElementById("selectedFile").style.display = "none";
+            document.getElementById("proceedBtn").style.display = "none";
+
+            document.getElementById("fileName").textContent = "";
+            document.getElementById("fileType").textContent = "";
+            document.getElementById("fileSize").textContent = "";
+            document.getElementById("preview").src = "";
+
+            document
+                .querySelectorAll('input[type="file"]')
+                .forEach(input => input.value = "");
+        }
+    </script>
+
+</body>
+</html>
