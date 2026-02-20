@@ -1,34 +1,29 @@
 class MetaClassifier:
 
-    def __init__(self):
-        self.weights = {
-            "cnn": 0.4,
-            "frequency": 0.3,
-            "landmark": 0.3,
-            "frame_model": 0.5,
-            "temporal_model": 0.5,
-            "spectrogram": 0.5,
-            "mfcc": 0.5
-        }
-
     def fuse(self, scores: dict):
 
-        total_score = 0
-        total_weight = 0
+        if not scores:
+            return {
+                "final_score": 0.0,
+                "decision": "Unknown",
+                "confidence": 0.0
+            }
 
-        for key, value in scores.items():
-            weight = self.weights.get(key, 0.3)
-            total_score += value * weight
-            total_weight += weight
+        # Ensure values are between 0 and 1
+        normalized_scores = [
+            max(0.0, min(1.0, float(v)))
+            for v in scores.values()
+        ]
 
-        if total_weight == 0:
-            final_score = 0
-        else:
-            final_score = total_score / total_weight
+        final_score = sum(normalized_scores) / len(normalized_scores)
 
         decision = "Fake" if final_score > 0.5 else "Real"
 
         return {
             "final_score": round(final_score, 3),
-            "decision": decision
+            "decision": decision,
+            "confidence": round(final_score * 100, 2),
+            "model_breakdown": {
+                k: round(v * 100, 2) for k, v in scores.items()
+            }
         }

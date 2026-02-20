@@ -9,7 +9,7 @@ import shutil
 import uuid
 
 from image_auth import authenticate_image
-from multimodal_engine import MultiModalEngine
+from analyzer import analyze_media
 from utils import detect_media_type
 
 app = FastAPI()
@@ -93,11 +93,23 @@ async def authenticate(file: UploadFile = File(...)):
 
     checks, score, deepfake_score = authenticate_image(file_path)
 
+    # Decide authenticity level based on deepfake risk
+    if score <= 30:
+        authenticity_level = "Likely Deepfake"
+    elif score <= 60:
+        authenticity_level = "Suspicious"
+    else:
+        authenticity_level = "Authentic"
+
+    total_score = score
+
+
     return {
         "checks": checks,
-        "authenticity_score": score,
-        "deepfake_risk": deepfake_score
+        "authenticity_level": authenticity_level,
+        "total_score": deepfake_score
     }
+
 
 
 # -------------------------
@@ -116,53 +128,23 @@ async def deepfake():
     if not file_path:
         return {"error": "No file uploaded"}
 
-    engine = MultiModalEngine()
-    media_type = detect_media_type(file_path)
+    # 🔥 Call new analyzer
+    result = analyze_media(file_path)
 
-    if media_type == "image":
-        raw_result = engine.process_image(file_path)
-    elif media_type == "video":
-        raw_result = engine.process_video(file_path)
-    elif media_type == "audio":
-        raw_result = engine.process_audio(file_path)
-    else:
-        return {"error": "Unsupported type"}
-
-    """
-    EXPECTED raw_result format from engine:
-    {
-        "cnn": 0.72,
-        "frequency": 0.65,
-        "landmark": 0.81
-    }
-    """
-
-    # Safe extraction
-    cnn_score = raw_result.get("cnn", 0)
-    freq_score = raw_result.get("frequency", 0)
-    landmark_score = raw_result.get("landmark", 0)
-
-    # Calculate deepfake probability
-    deepfake_probability = (cnn_score + freq_score + landmark_score) / 3
-
-    confidence_score = 1 - deepfake_probability
-    risk_score = deepfake_probability
+    if "error" in result:
+        return result
 
     processing_time = round(time.time() - start_time, 2)
     file_size = round(os.path.getsize(file_path) / (1024 * 1024), 2)
 
-    status = "deepfake" if deepfake_probability > 0.5 else "authentic"
+    
 
     return {
-        "status": status,
-        "confidence": round(confidence_score * 100),
-        "risk": round(risk_score * 100),
-        "metrics": {
-            "facial": round(landmark_score * 100),
-            "lighting": round(freq_score * 100),
-            "compression": round(cnn_score * 100)
-        },
+        "media_type": result["media_type"],
+        "status": result["decision"].lower(),  # fake / real
+        "confidence": result["confidence"],    # 0–100
+        "risk": result["confidence"],          # same as fake probability
+        "model_breakdown": result["model_breakdown"],
         "processing_time": processing_time,
         "file_size": file_size
     }
-

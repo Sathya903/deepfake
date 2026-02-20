@@ -1,47 +1,93 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const auth = JSON.parse(sessionStorage.getItem("authResult"));
     const deepfake = JSON.parse(sessionStorage.getItem("deepfakeResult"));
 
-    if (!auth || !deepfake) {
+    if (!deepfake) {
         document.body.innerHTML = "❌ Missing analysis data.";
         return;
     }
 
-    document.getElementById("authScore").innerText =
-        auth.total_score + "%";
+    const risk = deepfake.confidence;        // Fake probability %
+    const confidence = 100 - risk;           // Real confidence %
 
-    document.getElementById("deepfakeScore").innerText =
-        deepfake.deepfake_score + "%";
+    // ========================
+    // BASIC INFO
+    // ========================
 
-    document.getElementById("cnnBar").style.width =
-        deepfake.methods.cnn + "%";
+    document.getElementById("confidenceScore").innerText =
+        confidence + "%";
 
-    document.getElementById("freqBar").style.width =
-        deepfake.methods.frequency + "%";
+    document.getElementById("riskScore").innerText =
+        risk + "%";
 
-    document.getElementById("landmarkBar").style.width =
-        deepfake.methods.landmark + "%";
+    document.getElementById("processingTime").innerText =
+        deepfake.processing_time + " sec";
 
-    let finalScore =
-        (0.4 * auth.total_score) +
-        (0.6 * (100 - deepfake.deepfake_score));
+    document.getElementById("fileSize").innerText =
+        deepfake.file_size;
+
+    // ========================
+    // MODEL BREAKDOWN
+    // ========================
+
+    const container = document.getElementById("modelBreakdownContainer");
+    container.innerHTML = "";
+
+    Object.entries(deepfake.model_breakdown).forEach(([name, value]) => {
+
+        const barHTML = `
+            <div class="bar">
+                <label>${name} (${value}%)</label>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width:${value}%"></div>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML += barHTML;
+    });
+
+    // ========================
+    // TECHNIQUES USED
+    // ========================
+
+    const techniquesList = document.getElementById("techniquesList");
+    techniquesList.innerHTML = "";
+
+    Object.keys(deepfake.model_breakdown).forEach(name => {
+        const li = document.createElement("li");
+        li.innerText = name;
+        techniquesList.appendChild(li);
+    });
+
+    // ========================
+    // FINAL VERDICT
+    // ========================
 
     let verdict;
     let color;
+    let recommendation;
 
-    if (finalScore >= 80) {
-        verdict = "✅ TRUSTED MEDIA";
-        color = "#00ff9d";
-    } else if (finalScore >= 50) {
-        verdict = "⚠ SUSPICIOUS MEDIA";
-        color = "#ffd166";
-    } else {
+    if (risk >= 70) {
         verdict = "❌ HIGH RISK – LIKELY DEEPFAKE";
         color = "#ff4d4d";
+        recommendation = "Avoid sharing this media. Verify with trusted sources before distribution.";
+    } 
+    else if (risk >= 40) {
+        verdict = "⚠ SUSPICIOUS MEDIA";
+        color = "#ffd166";
+        recommendation = "Cross-check the media source. Consider manual verification.";
+    } 
+    else {
+        verdict = "✅ AUTHENTIC MEDIA";
+        color = "#00ff9d";
+        recommendation = "Media appears authentic based on AI analysis.";
     }
 
     const verdictEl = document.getElementById("finalVerdict");
     verdictEl.innerText = verdict;
     verdictEl.style.color = color;
+
+    document.getElementById("recommendation").innerText =
+        recommendation;
 });

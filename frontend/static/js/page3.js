@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const result = JSON.parse(stored);
-
+    
     checksDiv.innerHTML = "";
 
     result.checks.forEach(check => {
@@ -39,10 +39,21 @@ document.addEventListener("DOMContentLoaded", function () {
         checksDiv.appendChild(div);
     });
 
-    finalStatus.innerHTML = `
-        Authenticity Level: ${result.authenticity_level} <br>
-        Total Score: ${result.total_score}
-    `;
+    let score = result.ai_risk || 0;
+
+    let level;
+    if (score >= 75) {
+        level = "Likely Deepfake";
+    } 
+    else if (score >= 40) {
+        level = "Suspicious";
+    }
+    else {
+        level = "Authentic";
+    }
+
+    
+
 
     // 🔥 Debug click
     deepfakeBtn.addEventListener("click", function () {

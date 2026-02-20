@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 class FrameDetector:
 
@@ -6,19 +7,16 @@ class FrameDetector:
         cap = cv2.VideoCapture(video_path)
         scores = []
 
-        count = 0
-        while cap.isOpened() and count < 10:
+        while len(scores) < 20:
             ret, frame = cap.read()
             if not ret:
                 break
 
-            # Save temporary frame
-            temp_path = "temp.jpg"
+            temp_path = "temp_frame.jpg"
             cv2.imwrite(temp_path, frame)
 
             score = image_cnn.predict(temp_path)
             scores.append(score)
-            count += 1
 
         cap.release()
 

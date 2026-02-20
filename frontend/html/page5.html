@@ -7,47 +7,33 @@
 </head>
 <body>
 
-<h1>Final Trust Analysis Report</h1>
+<h1>AI Deepfake Analysis Report</h1>
 
 <div class="card">
-  <h2>Authentication Score</h2>
-  <p id="authScore"></p>
+  <h2>Overall Assessment</h2>
+  <p><strong>Confidence Score:</strong> <span id="confidenceScore"></span></p>
+  <p><strong>Risk Score:</strong> <span id="riskScore"></span></p>
+  <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
+  <p><strong>File Size:</strong> <span id="fileSize"></span> MB</p>
 </div>
 
 <div class="card">
-  <h2>Deepfake Probability</h2>
-  <p id="deepfakeScore"></p>
+  <h2>Detection Techniques Used</h2>
+  <ul id="techniquesList"></ul>
 </div>
 
 <div class="card">
   <h2>Model Breakdown</h2>
+  <div id="modelBreakdownContainer"></div>
+</div>
 
-  <div class="bar">
-    <label>CNN</label>
-    <div class="bar-bg">
-      <div class="bar-fill" id="cnnBar"></div>
-    </div>
-  </div>
-
-  <div class="bar">
-    <label>Frequency</label>
-    <div class="bar-bg">
-      <div class="bar-fill" id="freqBar"></div>
-    </div>
-  </div>
-
-  <div class="bar">
-    <label>Landmark</label>
-    <div class="bar-bg">
-      <div class="bar-fill" id="landmarkBar"></div>
-    </div>
-  </div>
-
+<div class="card">
+  <h2>Recommended Actions</h2>
+  <p id="recommendation"></p>
 </div>
 
 <div class="card">
   <h2 id="finalVerdict"></h2>
 </div>
-
 </body>
 </html>
