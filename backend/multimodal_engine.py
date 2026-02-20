@@ -1,11 +1,11 @@
-from image_models.cnn_detector import CNNDetector
+from image_models.cnn_detector import ImageCNNDetector
 from image_models.frequency_detector import FrequencyDetector
 from image_models.face_landmark_detector import FaceLandmarkDetector
 
 from video_models.frame_detector import FrameDetector
 from video_models.temporal_detector import TemporalDetector
 
-from audio_models.spectrogram_detector import SpectrogramDetector
+from audio_models.spectrogram_detector import SpectrogramCNNDetector
 from audio_models.mfcc_detector import MFCCDetector
 
 from fusion.meta_classifier import MetaClassifier
@@ -18,7 +18,7 @@ class MultiModalEngine:
     def __init__(self):
 
         # Image models
-        self.cnn = CNNDetector()
+        self.cnn = ImageCNNDetector()
         self.freq = FrequencyDetector()
         self.landmark = FaceLandmarkDetector()
 
@@ -27,7 +27,7 @@ class MultiModalEngine:
         self.temporal_model = TemporalDetector()
 
         # Audio models
-        self.spec_model = SpectrogramDetector()
+        self.spec_model = SpectrogramCNNDetector()
         self.mfcc_model = MFCCDetector()
 
         self.meta = MetaClassifier()

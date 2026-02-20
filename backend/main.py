@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 from security.encryption import save_encrypted_file,load_encrypted_file
+from auth_engine import authenticate_media
 from image_auth import authenticate_image
 from analyzer import analyze_media
 from utils import detect_media_type
@@ -142,23 +143,13 @@ async def authenticate(file: UploadFile = File(...)):
     with open(temp_path, "wb") as f:
         f.write(decrypted_data)
 
-    checks, score, deepfake_score = authenticate_image(temp_path)
+    result = authenticate_media(temp_path)
 
     os.remove(temp_path)
 
-    # Authenticity decision
-    if score <= 30:
-        authenticity_level = "Likely Deepfake"
-    elif score <= 60:
-        authenticity_level = "Suspicious"
-    else:
-        authenticity_level = "Authentic"
+    return result
 
-    return {
-        "checks": checks,
-        "authenticity_level": authenticity_level,
-        "total_score": deepfake_score
-    }
+    
 
 
 

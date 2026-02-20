@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         checksDiv.appendChild(div);
     });
 
-    let score = result.ai_risk || 0;
+    let score = result.deepfake_score || 0;
 
     let level;
     if (score >= 75) {

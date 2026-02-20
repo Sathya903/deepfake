@@ -116,7 +116,7 @@ def authenticate_video(file_path):
             cv2.imwrite(temp_frame_path, frame)
 
             result = engine.process_image(temp_frame_path)
-            sample_scores.append(result["final_deepfake_score"])
+            sample_scores.append(result.get("confidence", 0))
 
         current_frame += 1
 
