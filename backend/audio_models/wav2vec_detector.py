@@ -20,7 +20,7 @@ class Wav2VecDetector:
 
     def analyze(self, audio_path):
 
-        # ✅ Load audio safely (NO torchaudio, NO torchcodec)
+        
         waveform, sr = librosa.load(audio_path, sr=16000)
 
         # Convert to torch tensor

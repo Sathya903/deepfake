@@ -18,3 +18,4 @@ Thumbs.db
 
 # Uploaded files
 backend/uploads/
+.env

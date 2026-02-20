@@ -16,4 +16,7 @@ torchaudio
 timm
 facenet-pytorch
 transformers
+cryptography
+fernet
 
+load_dotenv

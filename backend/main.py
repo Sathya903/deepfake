@@ -1,13 +1,17 @@
+
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import time
-import os
+from fastapi import UploadFile, File
 import shutil
 import uuid
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+from security.encryption import save_encrypted_file,load_encrypted_file
 from image_auth import authenticate_image
 from analyzer import analyze_media
 from utils import detect_media_type
@@ -32,7 +36,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 FRONTEND_HTML = os.path.join(BASE_DIR, "../frontend/html")
 FRONTEND_STATIC = os.path.join(BASE_DIR, "../frontend/static")
-app.mount("/static", StaticFiles(directory=FRONTEND_STATIC), name="static")
+
 
 
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
@@ -74,6 +78,46 @@ async def page4(request: Request):
 async def page5(request: Request):
     return templates.TemplateResponse("page5.html", {"request": request})
 
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+
+    file_bytes = await file.read()
+
+    ext = os.path.splitext(file.filename)[1]
+    unique_name = str(uuid.uuid4()) + ext
+    file_path = os.path.join(UPLOAD_FOLDER, unique_name)
+
+    save_encrypted_file(file_bytes, file_path)
+
+    return {"message": "File saved securely"}
+
+@app.post("/predict")
+async def predict(file: UploadFile = File(...)):
+
+    # Step 1: Read uploaded file
+    file_bytes = await file.read()
+
+    ext = os.path.splitext(file.filename)[1]
+    unique_name = str(uuid.uuid4()) + ext
+    encrypted_path = os.path.join(UPLOAD_FOLDER, unique_name)
+
+    # Step 2: Save encrypted
+    save_encrypted_file(file_bytes, encrypted_path)
+
+    # Step 3: Decrypt for model processing
+    decrypted_data =load_encrypted_file(encrypted_path)
+
+    temp_path = os.path.join(UPLOAD_FOLDER, "temp_" + unique_name)
+
+    with open(temp_path, "wb") as f:
+        f.write(decrypted_data)
+
+    # Step 4: Send to model
+    result = analyze_media(temp_path)  # or your model function
+
+    os.remove(temp_path)
+
+    return {"result": result}
 
 # -------------------------
 # AUTHENTICATION API
@@ -86,23 +130,29 @@ async def authenticate(file: UploadFile = File(...)):
     unique_name = str(uuid.uuid4()) + ext
     file_path = os.path.join(UPLOAD_FOLDER, unique_name)
 
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    file_bytes = await file.read()
+    save_encrypted_file(file_bytes, file_path)
 
     last_uploaded_file["path"] = file_path
 
-    checks, score, deepfake_score = authenticate_image(file_path)
+    decrypted_data =load_encrypted_file(file_path)
 
-    # Decide authenticity level based on deepfake risk
+    temp_path = os.path.join(UPLOAD_FOLDER, "temp_" + unique_name)
+
+    with open(temp_path, "wb") as f:
+        f.write(decrypted_data)
+
+    checks, score, deepfake_score = authenticate_image(temp_path)
+
+    os.remove(temp_path)
+
+    # Authenticity decision
     if score <= 30:
         authenticity_level = "Likely Deepfake"
     elif score <= 60:
         authenticity_level = "Suspicious"
     else:
         authenticity_level = "Authentic"
-
-    total_score = score
-
 
     return {
         "checks": checks,
@@ -129,7 +179,15 @@ async def deepfake():
         return {"error": "No file uploaded"}
 
     # 🔥 Call new analyzer
-    result = analyze_media(file_path)
+    decrypted_data = load_encrypted_file(file_path)
+
+    name, ext = os.path.splitext(file_path)
+    temp_path = name + "_temp" + ext
+    with open(temp_path, "wb") as f:
+        f.write(decrypted_data)
+
+    result = analyze_media(temp_path)
+    os.remove(temp_path)
 
     if "error" in result:
         return result
