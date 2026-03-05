@@ -24,39 +24,27 @@ Key Features
    ->Fast and automated verification process
 
 System Architecture
-User Upload
-     │
-     ▼
-Frontend Interface
-     │
-     ▼
-Backend Server
-     │
-     ├── Hash Verification
-     │
-     └── Deepfake Detection Model
-     │
-     ▼
-Result Display
+![Architecture Page](screenshots/architecture.png)
 
 Tech Stack
-   ->Frontend
-       HTML
-       CSS
-       JavaScript
-   ->Backend
-       Python
-   ->AI / Processing
-       EfficientNet
-       Spectogram
-       Wav2Vec
-       Frequency Detector
-       Temporal Detector
-       Frame Detector
-    ->Security
-      Hashing for media integrity
-      HTTPS for encryption in transit
-      AES encryption for secure data handling
+
+->Frontend:
+    HTML
+    CSS
+    JavaScript
+->Backend
+    Python
+->AI / Processing
+    EfficientNet
+    Spectogram
+    Wav2Vec
+    Frequency Detector
+    Temporal Detector
+    Frame Detector
+->Security
+    Hashing for media integrity
+    HTTPS for encryption in transit
+    AES encryption for secure data handling
 
 Installation
 Clone the repository:
