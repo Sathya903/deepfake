@@ -1,39 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Final Analysis Report</title>
+  <title>Analysis Complete</title>
   <link rel="stylesheet" href="/static/css/page5.css">
   <script src="/static/js/page5.js" defer></script>
 </head>
 <body>
 
-<h1>AI Deepfake Analysis Report</h1>
+<div class="container">
 
-<div class="card">
-  <h2>Overall Assessment</h2>
-  <p><strong>Confidence Score:</strong> <span id="confidenceScore"></span></p>
-  <p><strong>Risk Score:</strong> <span id="riskScore"></span></p>
-  <p><strong>Processing Time:</strong> <span id="processingTime"></span></p>
-  <p><strong>File Size:</strong> <span id="fileSize"></span> MB</p>
+  <h1 class="main-title">Analysis Complete</h1>
+  <p class="subtitle">Detailed deepfake detection results</p>
+
+  <!-- ================= TOP RESULT BOX ================= -->
+  <div id="resultBox" class="result-box">
+
+      <div class="result-header">
+          <div class="status-icon" id="statusIcon">✓</div>
+          <div>
+              <h2 id="finalVerdict"></h2>
+              <p>File Type: IMAGE</p>
+          </div>
+      </div>
+
+      <div class="scores">
+          <div class="score-block">
+              <label>Confidence Score</label>
+              <div class="big-number" id="confidenceScore"></div>
+              <div class="progress">
+                  <div id="confidenceBar" class="progress-fill gradient"></div>
+              </div>
+          </div>
+
+          <div class="score-block">
+              <label>Risk Score</label>
+              <div class="big-number" id="riskScore"></div>
+              <div class="progress">
+                  <div id="riskBar" class="progress-fill"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- ================= TWO COLUMN SECTION ================= -->
+  <div class="two-column">
+
+      <div class="card">
+          <h3>Detection Metrics</h3>
+          <div id="modelBreakdownContainer"></div>
+      </div>
+
+      <div class="card">
+          <h3>Analysis Information</h3>
+          <div class="info-item">
+              <span>Processing Time</span>
+              <strong id="processingTime"></strong>
+          </div>
+          <div class="info-item">
+              <span>File Size</span>
+              <strong id="fileSize"></strong>
+          </div>
+      </div>
+
+  </div>
+
+  <!-- ================= TECHNIQUES ================= -->
+  <div class="card full-width">
+      <h3>Detection Techniques Used</h3>
+      <div id="techniquesList" class="techniques"></div>
+  </div>
+
+  <!-- ================= RECOMMENDATIONS ================= -->
+  <div id="recommendBox" class="recommend-box">
+      <h3>Recommended Steps</h3>
+      <ul id="recommendList"></ul>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2>Detection Techniques Used</h2>
-  <ul id="techniquesList"></ul>
-</div>
-
-<div class="card">
-  <h2>Model Breakdown</h2>
-  <div id="modelBreakdownContainer"></div>
-</div>
-
-<div class="card">
-  <h2>Recommended Actions</h2>
-  <p id="recommendation"></p>
-</div>
-
-<div class="card">
-  <h2 id="finalVerdict"></h2>
-</div>
 </body>
 </html>

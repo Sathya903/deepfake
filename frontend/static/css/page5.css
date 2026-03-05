@@ -1,32 +1,157 @@
+
 body {
-  background: #0b1d3a;
-  color: white;
-  font-family: Segoe UI;
-  text-align: center;
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f4f6f9;
+    color: #1c1c1c;
 }
+
+.container {
+    width: 85%;
+    margin: auto;
+    padding: 40px 0;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    opacity: 0.7;
+    margin-bottom: 40px;
+}
+
+/* RESULT BOX */
+
+.result-box {
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    border: 2px solid transparent;
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.status-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.scores {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.score-block {
+    flex: 1;
+}
+
+.big-number {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.progress {
+    background: rgba(255,255,255,0.2);
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.6s ease;
+}
+
+.gradient {
+    background: linear-gradient(90deg,#4f7cff,#a84cff);
+}
+
+/* TWO COLUMN */
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 900px) {
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 .card {
-  background: rgba(255,255,255,0.1);
-  margin: 20px auto;
-  padding: 20px;
-  width: 60%;
-  border-radius: 12px;
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+.full-width {
+    margin-bottom: 30px;
 }
 
-.bar {
-  margin: 15px 0;
-  text-align: left;
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
 }
 
-.bar-bg {
-  background: rgba(255,255,255,0.2);
-  border-radius: 20px;
-  overflow: hidden;
+/* TECHNIQUES */
+
+.techniques {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.bar-fill {
-  height: 20px;
-  width: 0%;
-  background: linear-gradient(135deg,#4f7cff,#a84cff);
-  transition: width 0.6s ease;
+.techniques div {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+}
+
+/* RECOMMEND */
+
+/* RECOMMENDATIONS CARD */
+.recommend-box {
+    background: white;               /* same as other cards */
+    padding: 25px;                   /* same padding */
+    border-radius: 16px;             /* rounded corners */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* same shadow */
+    margin-bottom: 30px;             /* spacing between cards */
+}
+
+.recommend-box h3 {
+    margin-bottom: 15px;             /* spacing below title */
+}
+
+.recommend-box ul {
+    list-style: disc;                /* bullet points */
+    padding-left: 20px;
+    margin: 0;
+}
+
+.recommend-box li {
+    margin-bottom: 10px;             /* spacing between items */
+    font-weight: 500;                /* optional for consistency */
+    color: #1c1c1c;                  /* match main text color */
 }
