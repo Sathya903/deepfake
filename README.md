@@ -72,8 +72,26 @@ Run the application:
 python main.py
 
 Demo Screenshots
-![Upload Page](screenshots/upload.png)
+Authentication Page
+![Authentication Page](screenshots/authentication.png)
 
+Upload Page
+![Upload Page](screenshots/uploadPage.png)
+
+Authenticity Page
+![Authenticity Page](screenshots/authenticity.png)
+
+Progress Page
+![Progress Page](screenshots/progress.png)
+
+Deepfake Analysis Page
+![Deepfake Analysis Page](screenshots/deepfakeAnalysis.png)
+
+Detection Metrics Page
+![Detection Metrics Page](screenshots/detectionMetrics.png)
+
+Recommended Steps Page
+![Recommended Steps Page](screenshots/recommendedSteps.png)
 
 Security Considerations
      ->TrustLens integrates multiple security mechanisms:
